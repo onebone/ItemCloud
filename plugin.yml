@@ -1,0 +1,33 @@
+name: ItemCloud
+version: "1.0"
+author: onebone
+api: [1.4.0]
+main: onebone\itemcloud\MainClass
+
+commands:
+ itemcloud:
+  usage: /itemcloud <register | upload | download | list | count> [item ID[:damage]]
+  permission: itemcloud.command.register;itemcloud.command.upload;itemcloud.command.download;itemcloud.command.list;itemcloud.command.count
+permissions:
+ itemcloud.*:
+  description: Allows player to use all permissions
+  children:
+   itemcloud.command.*:
+    default: true
+    description: Allows player to use all ItemCloud commands
+    children:
+     itemcloud.command.register:
+      default: true
+      description: Allows player to use command /itemcloud register
+     itemcloud.command.upload:
+      default: true
+      description: Allows player to use command /itemcloud upload
+     itemcloud.command.download:
+      default: true
+      description: Allows player to use command /itemcloud download
+     itemcloud.command.list:
+      default: true
+      description: Allows player to use command /itemcloud list
+     itemcloud.command.count:
+      default: true
+      description: Allows player to use command /itemcloud count
