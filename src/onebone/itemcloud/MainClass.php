@@ -140,6 +140,11 @@ class MainClass extends PluginBase implements Listener{
 						if(!is_numeric($e[0]) or !is_numeric($e[1])){
 							goto usage2;
 						}
+						
+						if(!$this->clouds[$name]->itemExists($e[0], $e[1], $amount)){
+							$sender->sendMessage("[ItemCloud] You don't have enough item in your account.");
+							break;
+						}
 						$item = Item::get((int)$e[0], (int)$e[1], $amount);
 						if($sender->getInventory()->canAddItem($item)){
 							$this->clouds[$name]->removeItem($e[0], $e[1], $amount);
