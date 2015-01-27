@@ -1,5 +1,5 @@
 name: ItemCloud
-version: "1.0"
+version: "1.1"
 author: onebone
 api: [1.4.0]
 main: onebone\itemcloud\MainClass

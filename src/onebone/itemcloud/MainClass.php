@@ -61,7 +61,8 @@ class MainClass extends PluginBase implements Listener{
 		if(is_numeric($interval = $this->getConfig()->get("auto-save-interval"))){
 			$this->getServer()->getScheduler()->scheduleDelayedRepeatingTask(new CallbackTask([$this, "save"], []), $interval * 1200, 1);
 		}
-
+		
+		$this->clouds = [];
 		foreach($data as $datam){
 			$this->clouds[$datam[1]] = new ItemCloud($datam[0], $datam[1]);
 		}
