@@ -1,8 +1,9 @@
 name: ItemCloud
-version: "1.1"
+version: "1.2"
 author: onebone
 api: [1.4.0]
 main: onebone\itemcloud\MainClass
+website: http://onebone.me/plugins/?plugin=itemcloud
 
 commands:
  itemcloud:
