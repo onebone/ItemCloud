@@ -8,6 +8,7 @@ use pocketmine\event\Listener;
 use pocketmine\item\Item;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\TextFormat;
 
 class MainClass extends PluginBase implements Listener{
 	/**
@@ -77,6 +78,10 @@ class MainClass extends PluginBase implements Listener{
 				$sub = array_shift($params);
 				switch($sub){
 					case "register":
+						if(!$sender->hasPermission("itemcloud.command.register")){
+							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							return true;
+						}
 						if(isset($this->clouds[strtolower($sender->getName())])){
 							$sender->sendMessage("[ItemCloud] You already have your ItemCloud account");
 							break;
@@ -85,6 +90,10 @@ class MainClass extends PluginBase implements Listener{
 						$sender->sendMessage("[ItemCloud] Registered to the ItemCloud account");
 						break;
 					case "upload":
+						if(!$sender->hasPermission("itemcloud.command.upload")){
+							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							return true;
+						}
 						if(!isset($this->clouds[strtolower($sender->getName())])){
 							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud service first.");
 							break;
@@ -113,6 +122,10 @@ class MainClass extends PluginBase implements Listener{
 						}
 						break;
 					case "download":
+						if(!$sender->hasPermission("itemcloud.command.download")){
+							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							return true;
+						}
 						$name = strtolower($sender->getName());
 						if(!isset($this->clouds[$name])){
 							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud first.");
@@ -142,6 +155,10 @@ class MainClass extends PluginBase implements Listener{
 						}
 						break;
 					case "list":
+						if(!$sender->hasPermission("itemcloud.command.list")){
+							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							return true;
+						}
 						$name = strtolower($sender->getName());
 						if(!isset($this->clouds[$name])){
 							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud first.");
@@ -154,22 +171,28 @@ class MainClass extends PluginBase implements Listener{
 						$sender->sendMessage($output);
 						break;
 					case "count":
+						if(!$sender->hasPermission("itemcloud.command.count")){
+							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
+							return true;
+						}
 						$name = strtolower($sender->getName());
 						if(!isset($this->clouds[$name])){
 							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud first.");
-							break;
+							return true;
 						}
-						$id = array_shift($params);
-						$e = explode(":", $id);
-						if(!isset($e[1])){
-							$e[1] = 0;
+						$item = array_shift($params);
+						if(trim($item) === ""){
+							$sender->sendMessage("Usage: /itemcloud count <item>");
+							return true;
 						}
 
-						if(($count = $this->clouds[$name]->getCount($e[0], $e[1])) === false){
-							$sender->sendMessage("[ItemCloud] There are no ".$e[0].":".$e[1]." in your account.");
+						$item = Item::fromString($item);
+
+						if(($count = $this->clouds[$name]->getCount($item->getID(), $item->getDamage())) === false){
+							$sender->sendMessage("[ItemCloud] There are no ".$item->getName()." in your account.");
 							break;
 						}else{
-							$sender->sendMessage("[ItemCloud] Count of ".$e[0].":".$e[1]." = ".$count);
+							$sender->sendMessage("[ItemCloud] Count of ".$item->getName()." = ".$count);
 						}
 						break;
 					default:
