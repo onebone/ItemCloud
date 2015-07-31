@@ -8,7 +8,6 @@ use pocketmine\event\Listener;
 use pocketmine\item\Item;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
-use pocketmine\scheduler\CallbackTask;
 
 class MainClass extends PluginBase implements Listener{
 	/**
@@ -45,7 +44,7 @@ class MainClass extends PluginBase implements Listener{
 		return false;
 	}
 
-	/**************************   Below part is a non-API part   ***********************************/
+	/**************************   Non-API part   ***********************************/
 
 	public function onEnable(){
 		if(!self::$instance instanceof MainClass){
@@ -59,9 +58,9 @@ class MainClass extends PluginBase implements Listener{
 
 		$this->saveDefaultConfig();
 		if(is_numeric($interval = $this->getConfig()->get("auto-save-interval"))){
-			$this->getServer()->getScheduler()->scheduleDelayedRepeatingTask(new CallbackTask([$this, "save"], []), $interval * 1200, 1);
+			$this->getServer()->getScheduler()->scheduleDelayedRepeatingTask(new SaveTask($this), $interval * 1200, $interval * 1200);
 		}
-		
+
 		$this->clouds = [];
 		foreach($data as $datam){
 			$this->clouds[$datam[1]] = new ItemCloud($datam[0], $datam[1]);
@@ -140,7 +139,7 @@ class MainClass extends PluginBase implements Listener{
 						if(!is_numeric($e[0]) or !is_numeric($e[1])){
 							goto usage2;
 						}
-						
+
 						if(!$this->clouds[$name]->itemExists($e[0], $e[1], $amount)){
 							$sender->sendMessage("[ItemCloud] You don't have enough item in your account.");
 							break;
