@@ -6,7 +6,7 @@ main: onebone\itemcloud\MainClass
 
 commands:
  itemcloud:
-  usage: /itemcloud <register | upload | download | list | count> [item ID[:damage]]
+  usage: /itemcloud <register | upload | download | list | count> [item]
   permission: itemcloud.command.register;itemcloud.command.upload;itemcloud.command.download;itemcloud.command.list;itemcloud.command.count
 permissions:
  itemcloud.*:

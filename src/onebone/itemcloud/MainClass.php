@@ -89,30 +89,24 @@ class MainClass extends PluginBase implements Listener{
 							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud service first.");
 							break;
 						}
-						$id = array_shift($params);
+						$item = array_shift($params);
 						$amount = array_shift($params);
-						if(trim($id) === "" or !is_numeric($amount)){
+						if(trim($item) === "" or !is_numeric($amount)){
 							usage:
 							$sender->sendMessage("Usage: /itemcloud upload <item ID[:item damage]> <count>");
 							break;
 						}
 						$amount = (int) $amount;
-						$e = explode(":", $id);
-						if(!isset($e[1])){
-							$e[1] = 0;
-						}
-						if(!is_numeric($e[0]) or !is_numeric($e[1])){
-							goto usage;
-						}
+						$item = Item::fromString($item);
 
 						$count = 0;
-						foreach($sender->getInventory()->getContents() as $item){
-							if($item->getID() == $e[0] and $item->getDamage() == $e[1]){
-								$count += $item->getCount();
+						foreach($sender->getInventory()->getContents() as $i){
+							if($i->getID() == $item->getID() and $i->getDamage() == $item->getDamage()){
+								$count += $i->getCount();
 							}
 						}
 						if($amount <= $count){
-							$this->clouds[strtolower($sender->getName())]->addItem($e[0], $e[1], $amount, true);
+							$this->clouds[strtolower($sender->getName())]->addItem($item->getID(), $item->getDamage(), $amount, true);
 							$sender->sendMessage("[ItemCloud] Uploaded your item to ItemCloud account.");
 						}else{
 							$sender->sendMessage("[ItemCloud] You don't have enough item to upload.");
@@ -124,29 +118,23 @@ class MainClass extends PluginBase implements Listener{
 							$sender->sendMessage("[ItemCloud] Please register to the ItemCloud first.");
 							break;
 						}
-						$id = array_shift($params);
+						$item = array_shift($params);
 						$amount = array_shift($params);
-						if(trim($id) === "" or !is_numeric($amount)){
+						if(trim($item) === "" or !is_numeric($amount)){
 							usage2:
 							$sender->sendMessage("Usage: /itemcloud download <item ID[:item damage]> <count>");
 							break;
 						}
 						$amount = (int)$amount;
-						$e = explode(":", $id);
-						if(!isset($e[1])){
-							$e[1] = 0;
-						}
-						if(!is_numeric($e[0]) or !is_numeric($e[1])){
-							goto usage2;
-						}
+						$item = Item::fromString($item);
 
-						if(!$this->clouds[$name]->itemExists($e[0], $e[1], $amount)){
+						if(!$this->clouds[$name]->itemExists($item->getID(), $item->getDamage(), $amount)){
 							$sender->sendMessage("[ItemCloud] You don't have enough item in your account.");
 							break;
 						}
-						$item = Item::get((int)$e[0], (int)$e[1], $amount);
+
 						if($sender->getInventory()->canAddItem($item)){
-							$this->clouds[$name]->removeItem($e[0], $e[1], $amount);
+							$this->clouds[$name]->removeItem($item->getID(), $item->getDamage(), $amount);
 							$sender->getInventory()->addItem($item);
 							$sender->sendMessage("[ItemCloud] You have downloaded items from the ItemCloud account.");
 						}else{
