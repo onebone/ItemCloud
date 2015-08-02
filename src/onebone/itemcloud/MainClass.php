@@ -107,6 +107,7 @@ class MainClass extends PluginBase implements Listener{
 						}
 						$amount = (int) $amount;
 						$item = Item::fromString($item);
+						$item->setCount($amount);
 
 						$count = 0;
 						foreach($sender->getInventory()->getContents() as $i){
@@ -140,6 +141,7 @@ class MainClass extends PluginBase implements Listener{
 						}
 						$amount = (int)$amount;
 						$item = Item::fromString($item);
+						$item->setCount($amount);
 
 						if(!$this->clouds[$name]->itemExists($item->getID(), $item->getDamage(), $amount)){
 							$sender->sendMessage("[ItemCloud] You don't have enough item in your account.");
