@@ -47,10 +47,13 @@ class MainClass extends PluginBase implements Listener{
 
 	/**************************   Non-API part   ***********************************/
 
-	public function onEnable(){
+	public function onLoad(){
 		if(!self::$instance instanceof MainClass){
 			self::$instance = $this;
 		}
+	}
+
+	public function onEnable(){
 		@mkdir($this->getDataFolder());
 		if(!is_file($this->getDataFolder()."ItemCloud.dat")){
 			file_put_contents($this->getDataFolder()."ItemCloud.dat", serialize([]));
