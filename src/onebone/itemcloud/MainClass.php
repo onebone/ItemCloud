@@ -81,6 +81,7 @@ class MainClass extends PluginBase implements Listener{
 				$sub = array_shift($params);
 				switch($sub){
 					case "register":
+					case "reg":
 						if(!$sender->hasPermission("itemcloud.command.register")){
 							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
 							return true;
@@ -93,6 +94,7 @@ class MainClass extends PluginBase implements Listener{
 						$sender->sendMessage("[ItemCloud] Registered to the ItemCloud account");
 						break;
 					case "upload":
+					case "up":
 						if(!$sender->hasPermission("itemcloud.command.upload")){
 							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
 							return true;
@@ -109,6 +111,11 @@ class MainClass extends PluginBase implements Listener{
 							break;
 						}
 						$amount = (int) $amount;
+						if($amount < 1){
+							usage:
+							$sender->sendMessage("Wrong amount");
+							break;
+						}
 						$item = Item::fromString($item);
 						$item->setCount($amount);
 
@@ -126,6 +133,7 @@ class MainClass extends PluginBase implements Listener{
 						}
 						break;
 					case "download":
+					case "down":
 						if(!$sender->hasPermission("itemcloud.command.download")){
 							$sender->sendMessage(TextFormat::RED."You don't have permission to use this command.");
 							return true;
@@ -143,6 +151,11 @@ class MainClass extends PluginBase implements Listener{
 							break;
 						}
 						$amount = (int)$amount;
+						if($amount < 1){
+							usage:
+							$sender->sendMessage("Wrong amount");
+							break;
+						}
 						$item = Item::fromString($item);
 						$item->setCount($amount);
 
