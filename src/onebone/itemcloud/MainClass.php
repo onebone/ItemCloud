@@ -106,13 +106,11 @@ class MainClass extends PluginBase implements Listener{
 						$item = array_shift($params);
 						$amount = array_shift($params);
 						if(trim($item) === "" or !is_numeric($amount)){
-							usage:
 							$sender->sendMessage("Usage: /itemcloud upload <item ID[:item damage]> <count>");
 							break;
 						}
 						$amount = (int) $amount;
 						if($amount < 1){
-							usage:
 							$sender->sendMessage("Wrong amount");
 							break;
 						}
@@ -146,13 +144,11 @@ class MainClass extends PluginBase implements Listener{
 						$item = array_shift($params);
 						$amount = array_shift($params);
 						if(trim($item) === "" or !is_numeric($amount)){
-							usage2:
 							$sender->sendMessage("Usage: /itemcloud download <item ID[:item damage]> <count>");
 							break;
 						}
 						$amount = (int)$amount;
 						if($amount < 1){
-							usage:
 							$sender->sendMessage("Wrong amount");
 							break;
 						}
