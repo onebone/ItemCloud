@@ -62,7 +62,7 @@ class MainClass extends PluginBase implements Listener{
 
 		$this->saveDefaultConfig();
 		if(is_numeric($interval = $this->getConfig()->get("auto-save-interval"))){
-			$this->getServer()->getScheduler()->scheduleDelayedRepeatingTask(new SaveTask($this), $interval * 1200, $interval * 1200);
+			$this->getScheduler()->scheduleDelayedRepeatingTask(new SaveTask($this), $interval * 1200, $interval * 1200);
 		}
 
 		$this->clouds = [];
@@ -71,7 +71,7 @@ class MainClass extends PluginBase implements Listener{
 		}
 	}
 
-	public function onCommand(CommandSender $sender, Command $command, $label, array $params){
+	public function onCommand(CommandSender $sender, Command $command, $label, array $params): bool {
 		switch($command->getName()){
 			case "itemcloud":
 				if(!$sender instanceof Player){
